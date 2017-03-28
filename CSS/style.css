@@ -1,0 +1,102 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+.half_row {
+    height: 50%;
+}
+.sixty {
+    height: 60px;
+}
+.center {
+    align-self: center;
+}
+.container {
+    display: flex;
+    flex-flow: column nowrap;
+    background: lightgray;
+    width: 600px;
+    height: 100%;
+    margin: 0 auto;
+}
+.weather_temp {
+    background: purple;
+    flex: 2 1 auto;
+    order: 1;
+    width: 100%;
+    display: flex;
+    flex-flow:row nowrap;
+}
+.weather {
+    background: mediumpurple;
+    width: 65%;
+}
+.temp {
+    background: rebeccapurple;
+    width: 35%;
+    display: flex;
+    flex-flow: column nowrap;
+}
+.temperature {
+    background: greenyellow;
+    flex: 2 1 auto;
+}
+.switch {
+    background: lawngreen;
+    flex:1 1 auto;
+    justify-content: flex-end;
+}
+.humidity {
+    background: lightgreen;
+    flex: 1 1 auto;
+}
+.tempRange {
+    background: mediumseagreen;
+    flex: 1 1 auto;
+}
+.graph_wndspd {
+    background: orangered;
+    flex: 1 1 auto;
+    order: 2;
+    width: 100%;
+}
+.graph {
+    background: orange;
+}
+.wind {
+    background: darkorange;
+}
+
+.graph, .wind {
+    width: 100%;
+}
+.five_day {
+    background: darkblue;
+    flex: 1 1 auto;
+    order:3;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+}
+.day {
+    background: dodgerblue;
+    width: 8em;
+    height: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+}
+.day_lines {
+    border-right: 1px solid white;
+}
+.date {
+    background: cadetblue;
+    height: 4em;
+    width: 100%;
+    align-self: flex-end;
+}
+footer {
+    order: 4;
+    flex:.1 .1 auto;
+}

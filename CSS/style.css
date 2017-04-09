@@ -3,7 +3,6 @@
     padding: 0;
 }
 
-
 .half_row {
     height: 50%;
 }
@@ -42,6 +41,11 @@
 .temperature {
     background: greenyellow;
     flex: 2 1 auto;
+    display: flex;
+    align-items: center;
+}
+.temperature p {
+    font: 2em arial;
 }
 .switch {
     background: lawngreen;
@@ -51,6 +55,8 @@
 .humidity {
     background: lightgreen;
     flex: 1 1 auto;
+    display: flex;
+    align-items: center;
 }
 .tempRange {
     background: mediumseagreen;

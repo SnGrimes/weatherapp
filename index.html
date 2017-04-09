@@ -9,20 +9,20 @@
     <body>
         <div class="container">
             <section class="weather_temp sixty center">
-                <div id="weather_display" class="weather"></div>
+                <div class="weather">
+                    <p id="weather_display"></p>
+                    <p id="city_display"></p>
+                </div>
                 <div class="temp">
                     <div class="temperature">
-                        <p>&deg;C</p>
-                    </div>
-                    <div class="switch">
-                        <label>Fahrenheit/Celcius: <input type="button" value="F/C"></label>
+                        <p id="temp_display"></p><p>&deg;</p><input type="button" id="unit_switch" value="F" onclick='toggleUnit()'>
                     </div>
                     <div class="humidity">
-                        <p>Humidity</p>
+                        <p>Today's Humidity: </p><p id="humidity_display"></p>
                     </div>
                     <div class="tempRange">
-                        <p>High:</p>
-                        <p>Low:</p>
+                        <p>Today's High is: </p><p id="temphi_display"></p>
+                        <p>Today's Low is: </p><p id="templo_display"></p>
                     </div>
                 </div>
             </section>

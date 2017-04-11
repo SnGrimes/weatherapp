@@ -91,16 +91,19 @@
     width: 8em;
     height: 100%;
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: column wrap;
+}
+.day p {
+    flex: 1 1 auto;
 }
 .day_lines {
     border-right: 1px solid white;
 }
 .date {
     background: cadetblue;
-    height: 4em;
+    height: 2em;
     width: 100%;
-    align-self: flex-end;
+    flex: 1 1 auto;
 }
 footer {
     order: 4;

@@ -10,6 +10,7 @@ window.onload = function getLoc() {
         console.log('We got a location! Lat:' + userLat + ' Lon: ' + userLong);
 
         var request = new XMLHttpRequest();
+        var FiveDayReq = new XMLHttpRequest();
         // Since open weather is an http you can use 'https://cors-anywhere.herokuapp.com/' right before url to get https for cross origin errors
 request.open('GET', 'response.json', true);
 //request.open('GET', 'http://api.openweathermap.org/data/2.5/weather?lat=' + userLat +'&lon=' + userLong +'&appid=549ea4e9fb7d89a512a515156a787ab8', true);
@@ -23,15 +24,30 @@ request.onload = function() {
         rawHigh = data.main.temp_max;
         rawLow = data.main.temp_min;
     } else {
-        console.log('There was an error when returning the data.')
+        console.log('There was an error when current weather data.')
+    }
+};
+
+FiveDayReq.open('GET', '5day_response.json', true);
+FiveDayReq.onload = function() {
+    if(FiveDayReq.status >= 200 && FiveDayReq.status <400) {
+        //Success
+        var data = JSON.parse(FiveDayReq.responseText);
+        display5Day(data);
+    } else {
+        console.log('There was an error returning 5 day forecast data.')
     }
 };
 
 request.onerror = function() {
     console.log('There was a connection error.')
 }
+FiveDayReq.onerror = function() {
+    console.log('There was a connection error (5day)')
+}
 
 request.send();
+FiveDayReq.send();
 
     });
 }
@@ -82,6 +98,23 @@ function weatherCodes (code) {
     }
     else if (code >= 900 && code <= 906) {
         display.innerHTML = "<p>Omg! Weather!</p>"; 
+    }
+}
+
+function display5Day (data) {
+    console.log(data);
+    var fiveDay = document.getElementsByClassName('day_fill');
+    var fiveDate = document.getElementsByClassName('date_fill');
+    
+    var dataDay = 1;
+    for (var j = 0; j < fiveDay.length; j++) {
+        fiveDay[j].textContent = data.list[dataDay].main.temp + " " + data.list[dataDay].weather[0].id;
+        dataDay += 8;
+    }
+    var dataDate = 1;
+    for (var i = 0; i < fiveDate.length; i++) {
+        fiveDate[i].textContent = data.list[dataDate].dt_txt;
+        dataDate += 8;
     }
 }
 

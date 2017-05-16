@@ -6,9 +6,8 @@ window.onload = function getLoc() {
         var userLong = position.coords.longitude;
         console.log('We got a location! Lat:' + userLat + ' Lon: ' + userLong);
 
-        api.connection('GET', 'response.json');
-        api.displayData();
-    
+        api.connection('GET', 'response.json', 1);
+        api.connection('GET', '5day_response.json', 2);    
     }); 
 } /** End of Onload sequence **/
 
@@ -25,7 +24,7 @@ var api = {
         var button = document.getElementById('unit_switch');
         button.value = letter;
     },
-    connection: function (type, url) {
+    connection: function (type, url, dataSet) {
             var request = new XMLHttpRequest();
             request.open(type, url, true);
 
@@ -33,7 +32,12 @@ var api = {
                 if(request.status >= 200 && request.status <400) {
                     //Success
                      var data = JSON.parse(request.responseText);
-                     api.displayData(data);
+                     if (dataSet == 1) {
+                        api.displayData(data);
+                     }
+                     else {
+                         api.display5Day(data);
+                     }
                 } else {
                     console.log('There was an error when trying to request OpenWeather api data.')
                 }
@@ -45,25 +49,97 @@ var api = {
             request.send();        
     },
     Data: {},
+    Forecast: {},
     setData: function(data) {
         this.Data = Object.assign({}, data);
     },
     getData: function() {
         return this.Data;
     },
-    convertUnit: function () {
+    setForecast: function(data) {
+        this.Forecast = Object.assign({}, data);
+    },
+    getForecast: function(data) {
+        return this.Forecast;
+    },
+    convertUnit: function (value) {
             var new_temp;
-            if (FC) {
-                new_temp = (temperature * (9/5)) - 459.67;
-                api.setFC = false;
-                api.setButton('F');
+            if (this.FC) {
+                new_temp = (value * (9/5)) - 459.67;
             }
             else {
-                new_temp = temperature - 273.15;
-                api.setFC = true;
-                api.setButton('C');
+                new_temp = value - 273.15;
             } 
             return new_temp;
+    },
+    toggleUnit: function() {
+        var temp = 0;
+        var hi = 0;
+        var lo = 0;
+        var fiveDay = [];
+        var temperature = parseInt(this.Data.main.temp);
+        var high = parseInt(this.Data.main.temp_max);
+        var low = parseInt(this.Data.main.temp_min);
+        var button = document.getElementById('unit_switch');
+
+        console.log(temperature);
+        if (this.FC) {
+            //temp = (temperature * (9/5)) - 459.67;
+            //hi = (high * (9/5)) - 459.67;
+            //lo = (low * (9/5)) - 459.67;
+            temp = this.convertUnit(temperature);
+            hi = this.convertUnit(high);
+            lo = this.convertUnit(low);
+            console.log(temp);
+            document.getElementById('temp_display').innerHTML = "<p>" + temp.toPrecision(4) + "<p>";
+            document.getElementById('temphi_display').innerHTML= "<p>" + hi.toPrecision(4) + "<p>";
+            document.getElementById('templo_display').innerHTML= "<p>" + lo.toPrecision(4) + "<p>";
+            
+            var fiveDay = document.getElementsByClassName('day_fill');
+            var fiveDate = document.getElementsByClassName('date_fill');
+            
+            var dataDay = 1;
+            for (var j = 0; j < fiveDay.length; j++) {
+                fiveDay[j].textContent = this.convertUnit(this.Forecast.list[dataDay].main.temp).toPrecision(4) + " " +  this.weatherCodes(this.Forecast.list[dataDay].weather[0].id);
+                dataDay += 8;
+            }
+            var dataDate = 1;
+            for (var i = 0; i < fiveDate.length; i++) {
+                fiveDate[i].textContent = this.Forecast.list[dataDate].dt_txt;
+                dataDate += 8;
+            }
+            this.FC = false; 
+            button.value = 'F';
+        }
+        else {
+            //temp = temperature - 273.15;
+            //hi = high - 273.15;
+            //lo = low - 273.15;
+            temp = this.convertUnit(temperature);
+            hi = this.convertUnit(high);
+            lo = this.convertUnit(low);
+            console.log(temp);
+            document.getElementById('temp_display').innerHTML = "<p>" + temp.toPrecision(4) + "<p>";
+            document.getElementById('temphi_display').innerHTML= "<p>" + hi.toPrecision(4) + "<p>";
+            document.getElementById('templo_display').innerHTML= "<p>" + lo.toPrecision(4) + "<p>";
+
+            var fiveDay = document.getElementsByClassName('day_fill');
+            var fiveDate = document.getElementsByClassName('date_fill');
+            
+            var dataDay = 1;
+            for (var j = 0; j < fiveDay.length; j++) {
+                fiveDay[j].textContent = this.convertUnit(this.Forecast.list[dataDay].main.temp).toPrecision(4) + " " +  this.weatherCodes(this.Forecast.list[dataDay].weather[0].id);
+                dataDay += 8;
+            }
+            var dataDate = 1;
+            for (var i = 0; i < fiveDate.length; i++) {
+                fiveDate[i].textContent = this.Forecast.list[dataDate].dt_txt;
+                dataDate += 8;
+            }
+
+            this.FC = true;
+            button.value = 'C';
+        }
     },
     displayData: function(data){
         var weatherCity = data.name;
@@ -77,39 +153,54 @@ var api = {
         var wndSpd = data.wind.speed;
         var wndDeg = data.wind.deg;
 
-        var initialTemp = (weatherTemp * (9/5)) - 459.67;
-        var initialHigh = (tempHigh * (9/5)) - 459.67;
-        var initialLow = (tempLow * (9/5)) - 459.67;
-
-        document.getElementById('temp_display').innerHTML = "<p>" + initialTemp.toPrecision(4) + "<p>";
+        document.getElementById('temp_display').innerHTML = "<p>" + this.convertUnit(weatherTemp).toPrecision(4) + "<p>";
         document.getElementById('humidity_display').innerHTML= "<p>" + weatherHumid + "<p>";
-        document.getElementById('temphi_display').innerHTML= "<p>" + initialHigh.toPrecision(4) + "<p>";
-        document.getElementById('templo_display').innerHTML= "<p>" + initialLow.toPrecision(4) + "<p>";
+        document.getElementById('temphi_display').innerHTML= "<p>" + this.convertUnit(tempHigh).toPrecision(4) + "<p>";
+        document.getElementById('templo_display').innerHTML= "<p>" + this.convertUnit(tempLow).toPrecision(4) + "<p>";
         document.getElementById('city_display').innerHTML= "<p>" + weatherCity + "<p>";
-        this.weatherCodes(weatherId);
+        document.getElementById('weather_display').innerHTML = this.weatherCodes(weatherId);
+        this.setData(data);
+    },
+    display5Day: function (data) {
+        //console.log(data);
+        var fiveDay = document.getElementsByClassName('day_fill');
+        var fiveDate = document.getElementsByClassName('date_fill');
+        
+        var dataDay = 1;
+        for (var j = 0; j < fiveDay.length; j++) {
+            fiveDay[j].textContent = this.convertUnit(data.list[dataDay].main.temp).toPrecision(4) + " " +  this.weatherCodes(data.list[dataDay].weather[0].id);
+            dataDay += 8;
+        }
+        var dataDate = 1;
+        for (var i = 0; i < fiveDate.length; i++) {
+            fiveDate[i].textContent = data.list[dataDate].dt;
+            dataDate += 8;
+        }
+        this.setForecast(data);
     },
     weatherCodes: function(code){
-        var display = document.getElementById('weather_display');
+        var display;
         if (code >= 200 && code <= 232 ) {
-            display.innerHTML = "<p>This is a thunderstorm</p>";
+            display = "<p>This is a thunderstorm</p>";
         }
         else if (code >= 300 && code <= 321) {
-            display.innerHTML = "<p>This is drizzle</p>";
+            display = "<p>This is drizzle</p>";
         }
         else if (code >= 500 && code <= 531) {
-            display.innerHTML = "<p>This is rain</p>";
+            display = "<p>This is rain</p>";
         }
         else if (code >= 600 && code <= 622) {
-            display.innerHTML = "<p>This is Snow</p>";
+            display = "<p>This is Snow</p>";
         }
         else if (code == 800) {
-            display.innerHTML = "<p>This is clear sky</p>"; 
+            display = "<p>This is a clear sky</p>"; 
         }
         else if (code >= 801 && code <= 804) {
-            display.innerHTML = "<p>It is cloudy</p>"; 
+            display = "<p>It is cloudy</p>"; 
         }
-        else if (code >= 900 && code <= 906) {
-            display.innerHTML = "<p>Omg! Weather!</p>"; 
+        else if (code >= 900 && code <= 906) { 
+            display = "<p>Omg! Weather!</p>"; 
         }
+        return display;
     }
 };

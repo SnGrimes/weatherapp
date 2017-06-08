@@ -27,8 +27,18 @@
                 </div>
             </section>
             <section class="graph_wndspd sixty center">
-                <div class="graph half_row"></div>
-                <div class="wind half_row"></div>
+                <div class="graph half_row">
+                    <canvas id="canvas" width ="600" height ="110">
+                    </canvas>
+                </div>
+                <div class="wind half_row">
+                    <p class="wind_block">
+                        Wind Speed: <span id="wind_spd" class="wind_data"></span>
+                    </p>
+                    <p class="wind_block">
+                        Wind Direction: <span id="wind_dir" class="wind_data"></span>
+                    </p>
+                </div>
             </section>
             <section class="five_day sixty center">
                 <div  class="day day_lines">

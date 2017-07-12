@@ -3,24 +3,25 @@
     <head>
     <title>Weather App</title>
     <link rel="stylesheet" href="CSS/style.css" type="text/css" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <meta name ="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="UTF-8" />
     </head>
     <body>
         <div class="container">
-            <section class="weather_temp sixty center">
+            <section id="weather_main" class="weather_temp sixty center">
                 <div class="weather">
-                    <p id="weather_display"></p>
                     <p id="city_display"></p>
+                    <p id="weather_display"></p>
                 </div>
                 <div class="temp">
                     <div class="temperature">
-                        <p id="temp_display"></p><p>&deg;</p><input type="button" id="unit_switch" value="F" onclick='api.toggleUnit()'>
+                        <p id="temp_display"></p><p>&deg;</p><input type="button" class="unit_btn"id="unit_switch" onclick="api.toggleUnit()" value="F">
                     </div>
                     <div class="humidity">
                         <p>Today's Humidity: </p><p id="humidity_display"></p>
                     </div>
-                    <div class="tempRange">
+                    <div class="temp_range">
                         <p>Today's High is: </p><p id="temphi_display"></p>
                         <p>Today's Low is: </p><p id="templo_display"></p>
                     </div>
@@ -33,31 +34,36 @@
                 </div>
                 <div class="wind half_row">
                     <p class="wind_block">
-                        Wind Speed: <span id="wind_spd" class="wind_data"></span>
+                        Wind Speed: <br><span id="wind_spd" class="wind_data"></span>
                     </p>
                     <p class="wind_block">
-                        Wind Direction: <span id="wind_dir" class="wind_data"></span>
+                        Wind Direction: <br><span id="wind_dir" class="wind_data"></span>
                     </p>
                 </div>
             </section>
             <section class="five_day sixty center">
-                <div  class="day day_lines">
+                <div  class="day day_lines"> 
+                    <div class="day_icon"></div>
                     <p class="day_fill"></p>
                     <div class="date"><p class="date_fill"></p></div>
                 </div>
-                <div class="day day_lines">
-                    <p class="day_fill"</p>
-                    <div class="date"><p class="date_fill"></p></div>
-                </div>
-                <div class="day day_lines">
+                <div class="day day_lines"> 
+                    <div class="day_icon"></div>
                     <p class="day_fill"></p>
                     <div class="date"><p class="date_fill"></p></div>
                 </div>
-                <div class="day day_lines">
+                <div class="day day_lines"> 
+                    <div class="day_icon"></div>
                     <p class="day_fill"></p>
                     <div class="date"><p class="date_fill"></p></div>
                 </div>
-                <div class="day">
+                <div class="day day_lines"> 
+                    <div class="day_icon"></div>
+                    <p class="day_fill"></p>
+                    <div class="date"><p class="date_fill"></p></div>
+                </div>
+                <div class="day"> 
+                    <div class="day_icon"></div>
                     <p class="day_fill"></p>
                     <div class="date"><p class="date_fill"></p></div>
                 </div>

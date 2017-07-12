@@ -5,10 +5,11 @@ window.onload = function getLoc() {
         var userLat = position.coords.latitude;
         var userLong = position.coords.longitude;
         console.log('We got a location! Lat:' + userLat + ' Lon: ' + userLong);
-
-        api.connection('GET', 'response.json', 1);
-        api.connection('GET', '5day_response.json', 2);    
+    
+        api.connection('GET', 'response071017.json', 1);
+        api.connection('GET', 'fiveday_response071017.json', 2);
     }); 
+    document.getElementById('unit_switch').addEventListener("click", api.toggleUnit(), true);
 } /** End of Onload sequence **/
 
 
@@ -32,6 +33,7 @@ var api = {
                 if(request.status >= 200 && request.status <400) {
                     //Success
                      var data = JSON.parse(request.responseText);
+                     console.log(data);
                      if (dataSet == 1) {
                         api.displayData(data);
                      }
@@ -83,23 +85,20 @@ var api = {
         var button = document.getElementById('unit_switch');
 
         if (this.FC) {
-            //temp = (temperature * (9/5)) - 459.67;
-            //hi = (high * (9/5)) - 459.67;
-            //lo = (low * (9/5)) - 459.67;
             temp = this.convertUnit(temperature);
             hi = this.convertUnit(high);
             lo = this.convertUnit(low);
 
-            document.getElementById('temp_display').innerHTML = "<p>" + temp.toPrecision(4) + "<p>";
-            document.getElementById('temphi_display').innerHTML= "<p>" + hi.toPrecision(4) + "<p>";
-            document.getElementById('templo_display').innerHTML= "<p>" + lo.toPrecision(4) + "<p>";
+            document.getElementById('temp_display').innerHTML = "<p>" + temp.toPrecision(2) + "<p>";
+            document.getElementById('temphi_display').innerHTML= "<p>" + hi.toPrecision(2) + "<p>";
+            document.getElementById('templo_display').innerHTML= "<p>" + lo.toPrecision(2) + "<p>";
             
             var fiveDay = document.getElementsByClassName('day_fill');
             var fiveDate = document.getElementsByClassName('date_fill');
             
             var dataDay = 1;
             for (var j = 0; j < fiveDay.length; j++) {
-                fiveDay[j].textContent = this.convertUnit(this.Forecast.list[dataDay].main.temp).toPrecision(4) + " " +  this.weatherCodes(this.Forecast.list[dataDay].weather[0].id);
+                fiveDay[j].textContent = this.convertUnit(this.Forecast.list[dataDay].main.temp).toPrecision(2);
                 dataDay += 8;
             }
             var dataDate = 1;
@@ -111,23 +110,20 @@ var api = {
             button.value = 'F';
         }
         else {
-            //temp = temperature - 273.15;
-            //hi = high - 273.15;
-            //lo = low - 273.15;
             temp = this.convertUnit(temperature);
             hi = this.convertUnit(high);
             lo = this.convertUnit(low);
-            console.log(temp);
-            document.getElementById('temp_display').innerHTML = "<p>" + temp.toPrecision(4) + "<p>";
-            document.getElementById('temphi_display').innerHTML= "<p>" + hi.toPrecision(4) + "<p>";
-            document.getElementById('templo_display').innerHTML= "<p>" + lo.toPrecision(4) + "<p>";
+            
+            document.getElementById('temp_display').innerHTML = "<p>" + temp.toPrecision(2) + "<p>";
+            document.getElementById('temphi_display').innerHTML= "<p>" + hi.toPrecision(2) + "<p>";
+            document.getElementById('templo_display').innerHTML= "<p>" + lo.toPrecision(2) + "<p>";
 
             var fiveDay = document.getElementsByClassName('day_fill');
             var fiveDate = document.getElementsByClassName('date_fill');
             
             var dataDay = 1;
             for (var j = 0; j < fiveDay.length; j++) {
-                fiveDay[j].textContent = this.convertUnit(this.Forecast.list[dataDay].main.temp).toPrecision(4) + " " +  this.weatherCodes(this.Forecast.list[dataDay].weather[0].id);
+                fiveDay[j].textContent = this.convertUnit(this.Forecast.list[dataDay].main.temp).toPrecision(2);
                 dataDay += 8;
             }
             var dataDate = 1;
@@ -145,32 +141,34 @@ var api = {
         var weatherId = data.weather[0].id;
         var weatherDesc = data.weather[0].description;
         var weatherParams = data.weather[0].main;
-        var weatherTemp = data.main.temp;
+        var weatherTemp = parseInt(data.main.temp);
         var weatherHumid = data.main.humidity;
         var tempHigh = data.main.temp_max;
         var tempLow = data.main.temp_min;
         var wndSpd = data.wind.speed;
         var wndDeg = data.wind.deg;
 
-        document.getElementById('temp_display').innerHTML = "<p>" + this.convertUnit(weatherTemp).toPrecision(4) + "</p>";
+        document.getElementById('temp_display').innerHTML = "<p>" + this.convertUnit(weatherTemp).toPrecision(2) + "</p>";
         document.getElementById('humidity_display').innerHTML= "<p>" + weatherHumid + "</p>";
-        document.getElementById('temphi_display').innerHTML= "<p>" + this.convertUnit(tempHigh).toPrecision(4) + "</p>";
-        document.getElementById('templo_display').innerHTML= "<p>" + this.convertUnit(tempLow).toPrecision(4) + "</p>";
+        document.getElementById('temphi_display').textContent = this.convertUnit(tempHigh).toPrecision(2);
+        document.getElementById('templo_display').textContent = this.convertUnit(tempLow).toPrecision(2);
         document.getElementById('city_display').innerHTML= "<p>" + weatherCity + "</p>";
-        document.getElementById('weather_display').textContent = this.weatherCodes(weatherId);
+        document.getElementById('weather_display').innerHTML = this.weatherCodes(weatherId);
         document.getElementById('wind_spd').textContent = wndSpd;
         document.getElementById('wind_dir').textContent = wndDeg;
         this.setData(data);
     },
     display5Day: function (data) {
         //console.log(data);
+        var fiveIcon = document.getElementsByClassName('day_icon');
         var fiveDay = document.getElementsByClassName('day_fill');
         var fiveDate = document.getElementsByClassName('date_fill');
         var list = [];
         
         var dataDay = 1;
         for (var j = 0; j < fiveDay.length; j++) {
-            fiveDay[j].textContent = this.convertUnit(data.list[dataDay].main.temp).toPrecision(4) + " " +  this.weatherCodes(data.list[dataDay].weather[0].id);
+            fiveDay[j].textContent = this.convertUnit(data.list[dataDay].main.temp).toPrecision(2); 
+            fiveIcon[j].innerHTML = this.weatherCodes(data.list[dataDay].weather[0].id);
             dataDay += 8;
         }
         var dataDate = 1;
@@ -194,7 +192,7 @@ var api = {
             
 
             for (var i = 0; i < 5; i++) {
-                temps[i] = this.convertUnit(this.Forecast.list[dataDay].main.temp).toPrecision(4);
+                temps[i] = this.convertUnit(this.Forecast.list[dataDay].main.temp).toPrecision(2);
                 dataDay +=8;
             }
             console.log(temps);
@@ -205,11 +203,13 @@ var api = {
             for (count = 0; count < temps.length; count++) {
                 ctx.lineTo(gridCol += WIDTH, HEIGHT - temps[count]);
                 ctx.arc(gridCol, HEIGHT - temps[count],3, 0, Math.PI*2, true);
+                ctx.fillText(temps[count].toString() + " F", gridCol, HEIGHT - temps[count] +20);
             }
             ctx.lineWidth = 2;
             ctx.strokeStyle = 'white';
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
+            ctx.font = "9px serif"
             ctx.stroke();
             ctx.fill(arc);
             
@@ -265,28 +265,47 @@ var api = {
     },
     weatherCodes: function(code){
         var display;
-        var weatherBckgrd = document.getElementsByClassName('weather_temp');
+        var weatherBckgrd = document.getElementById('weather_main');
+        var weatherIcon = document.getElementById('weather_display');
         if (code >= 200 && code <= 232 ) {
-            display = "This is a thunderstorm";
+            // Thunderstorm
+            display = "<img src=\"img/Thunderstorm.svg\" alt=\" Thunderstorm Icon\" height=\"50\">";
+            weatherIcon.innerHTML = "<img src=\"img/Thunderstorm.png\" alt=\" Thunderstorm Icon\" height=\"150\">";
+            weatherBckgrd.style.backgroundColor = '#51594f';
         }
         else if (code >= 300 && code <= 321) {
-            display = "This is drizzle";
+            // Drizzle
+            display = "<img src=\"img/Drizzle.svg\" alt=\" Drizzle Icon\" height=\"50\">";
+            weatherIcon.innerHTML = "<img src=\"img/Drizzle.svg\" alt=\" Drizzle Icon\" height=\"150\">";
+            weatherBckgrd.style.backgroundColor = '#7e848c';
         }
         else if (code >= 500 && code <= 531) {
-            display = "This is rain";
+            // Rain
+            display = "<img src=\"img/Rain.svg\" alt=\" Rain Icon\" height=\"50\">";
+            weatherIcon.innerHTML = "<img src=\"img/Rain.svg\" alt=\" Rain Icon\" height=\"150\">";
+            weatherBckgrd.style.backgroundColor = '#7e848c';
         }
         else if (code >= 600 && code <= 622) {
-            display = "This is Snow";
+            // Snow
+            display = "<img src=\"img/Snow.svg\" alt=\" Snow Icon\" height=\"50\">";
+            weatherIcon.innerHTML = "<img src=\"img/Snow.svg\" alt=\" Snow Icon\" height=\"150\">";
+            weatherBckgrd.style.backgroundColor = '#b1b7bf';
         }
         else if (code == 800) {
-            display = "This is a clear sky"; 
-            weatherBckgrd.style.backgroundColor = 'blue';
+            // Sunny and clear
+            display = "<img src=\"img/Sunny.svg\" alt=\" Sunny Icon\" height=\"50\">"; 
+            weatherIcon.innerHTML = "<img src=\"img/Sunny.svg\" alt=\" Sunny Icon\" height=\"150\">";
+            weatherBckgrd.style.backgroundColor = '#b4d8ed';
         }
         else if (code >= 801 && code <= 804) {
-            display = "It is cloudy"; 
+            // Cloudy
+            display = "<img src=\"img/Cloudy.svg\" alt=\" Cloudy Icon\" height=\"50\">";
+            weatherIcon.innerHTML = "<img src=\"img/Cloudy.svg\" alt=\" Cloudy Icon\" height=\"150\">";
+            weatherBckgrd.style.backgroundColor = '#94989e';
         }
         else if (code >= 900 && code <= 906) { 
             display = "Omg! Weather!"; 
+            weatherBckgrd.style.backgroundColor = '#51594f';
         }
         return display;
     }

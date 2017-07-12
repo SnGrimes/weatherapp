@@ -1,0 +1,42 @@
+{
+    "coord": {
+        "lon": -96.74,
+        "lat": 32.94
+    },
+    "weather": [
+        {
+            "id": 801,
+            "main": "Clouds",
+            "description": "few clouds",
+            "icon": "02n"
+        }
+    ],
+    "base": "stations",
+    "main": {
+        "temp": 306.53,
+        "pressure": 1013,
+        "humidity": 49,
+        "temp_min": 306.15,
+        "temp_max": 307.15
+    },
+    "visibility": 16093,
+    "wind": {
+        "speed": 4.6,
+        "deg": 170
+    },
+    "clouds": {
+        "all": 20
+    },
+    "dt": 1499732100,
+    "sys": {
+        "type": 1,
+        "id": 2592,
+        "message": 0.0068,
+        "country": "US",
+        "sunrise": 1499772435,
+        "sunset": 1499823455
+    },
+    "id": 4722625,
+    "name": "Richardson",
+    "cod": 200
+}

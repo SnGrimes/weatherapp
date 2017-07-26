@@ -4,23 +4,22 @@ window.onload = function getLoc() {
     navigator.geolocation.getCurrentPosition(function(position){
         var userLat = position.coords.latitude;
         var userLong = position.coords.longitude;
-        console.log('We got a location! Lat:' + userLat + ' Lon: ' + userLong);
+        var btn = document.getElementById('unit_switch');
     
         api.connection('GET', 'response071017.json', 1);
         api.connection('GET', 'fiveday_response071017.json', 2);
+        //api.connection('GET', 'http://api.openweathermap.org/data/2.5/weather?lat=' + userLat +'&lon=' + userLong +'&appid=549ea4e9fb7d89a512a515156a787ab8', 1);
+        //api.connection('GET', 'http://api.openweathermap.org/data/2.5/forecast?lat=' + userLat +'&lon=' + userLong +'&appid=549ea4e9fb7d89a512a515156a787ab8', 2);
+        document.addEventListener('click', api.toggleUnit,true);
     }); 
-    document.getElementById('unit_switch').addEventListener("click", api.toggleUnit(), true);
+    
 } /** End of Onload sequence **/
 
 
+
 var api = {
-    FC: true,
-    set setFC (value) {
-        this.FC = value;
-    },
-    get getFC() {
-        return this.FC;
-    },
+    Data: {},
+    Forecast: {},
     setButton: function(letter) {
         var button = document.getElementById('unit_switch');
         button.value = letter;
@@ -33,7 +32,7 @@ var api = {
                 if(request.status >= 200 && request.status <400) {
                     //Success
                      var data = JSON.parse(request.responseText);
-                     console.log(data);
+                     
                      if (dataSet == 1) {
                         api.displayData(data);
                      }
@@ -47,11 +46,8 @@ var api = {
             request.onerror = function() {
                 console.log('There was a connection error.')
             }
-
             request.send();        
     },
-    Data: {},
-    Forecast: {},
     setData: function(data) {
         this.Data = Object.assign({}, data);
     },
@@ -65,75 +61,65 @@ var api = {
         return this.Forecast;
     },
     convertUnit: function (value) {
+            var currentUnit = document.getElementById('unit_switch').value;
             var new_temp;
-            if (this.FC) {
-                new_temp = (value * (9/5)) - 459.67;
+            if (currentUnit == "F") {
+                new_temp = value - 273.15;
             }
             else {
-                new_temp = value - 273.15;
+                new_temp = (value * (9/5)) - 459.67;
             } 
             return new_temp;
     },
+    initUnit: function(value) {
+        return (value * (9/5)) - 459.67;
+    },
+    changeUnitValues: function (main, high, low) {
+        var dataDay = 1;
+        var dataDate = 1;
+        var fiveDay = document.getElementsByClassName('day_fill');
+        var fiveDate = document.getElementsByClassName('date_fill');
+        
+        document.getElementById('temp_display').innerHTML = "<p>" + main.toPrecision(2) + "<p>";
+        document.getElementById('temphi_display').innerHTML= "<p>" + high.toPrecision(2) + "<p>";
+        document.getElementById('templo_display').innerHTML= "<p>" + low.toPrecision(2) + "<p>";
+
+        
+        for (var j = 0; j < fiveDay.length; j++) {
+            fiveDay[j].textContent = this.convertUnit(this.Forecast.list[dataDay].main.temp).toPrecision(2);
+            dataDay += 8;
+        }
+
+        for (var i = 0; i < fiveDate.length; i++) {
+            fiveDate[i].textContent = this.dateFormat(this.Forecast.list[dataDate].dt_txt);
+            dataDate += 8;
+        }
+    },
     toggleUnit: function() {
+        var data = api.getData();
         var temp = 0;
         var hi = 0;
         var lo = 0;
-        var fiveDay = [];
-        var temperature = parseInt(this.Data.main.temp);
-        var high = parseInt(this.Data.main.temp_max);
-        var low = parseInt(this.Data.main.temp_min);
-        var button = document.getElementById('unit_switch');
+        var temperature = parseInt(data.main.temp);
+        var high = parseInt(data.main.temp_max);
+        var low = parseInt(data.main.temp_min);
+        var currentUnit = document.getElementById('unit_switch').value;
 
-        if (this.FC) {
-            temp = this.convertUnit(temperature);
-            hi = this.convertUnit(high);
-            lo = this.convertUnit(low);
+        if (currentUnit == "C" ) {
+            temp = api.convertUnit(temperature);
+            hi = api.convertUnit(high);
+            lo = api.convertUnit(low);
 
-            document.getElementById('temp_display').innerHTML = "<p>" + temp.toPrecision(2) + "<p>";
-            document.getElementById('temphi_display').innerHTML= "<p>" + hi.toPrecision(2) + "<p>";
-            document.getElementById('templo_display').innerHTML= "<p>" + lo.toPrecision(2) + "<p>";
-            
-            var fiveDay = document.getElementsByClassName('day_fill');
-            var fiveDate = document.getElementsByClassName('date_fill');
-            
-            var dataDay = 1;
-            for (var j = 0; j < fiveDay.length; j++) {
-                fiveDay[j].textContent = this.convertUnit(this.Forecast.list[dataDay].main.temp).toPrecision(2);
-                dataDay += 8;
-            }
-            var dataDate = 1;
-            for (var i = 0; i < fiveDate.length; i++) {
-                fiveDate[i].textContent = this.dateFormat(this.Forecast.list[dataDate].dt_txt);
-                dataDate += 8;
-            }
-            this.FC = false; 
-            button.value = 'F';
+            api.changeUnitValues(temp, hi, lo);
+            api.setButton('F');
         }
         else {
-            temp = this.convertUnit(temperature);
-            hi = this.convertUnit(high);
-            lo = this.convertUnit(low);
+            temp = api.convertUnit(temperature);
+            hi = api.convertUnit(high);
+            lo = api.convertUnit(low);
             
-            document.getElementById('temp_display').innerHTML = "<p>" + temp.toPrecision(2) + "<p>";
-            document.getElementById('temphi_display').innerHTML= "<p>" + hi.toPrecision(2) + "<p>";
-            document.getElementById('templo_display').innerHTML= "<p>" + lo.toPrecision(2) + "<p>";
-
-            var fiveDay = document.getElementsByClassName('day_fill');
-            var fiveDate = document.getElementsByClassName('date_fill');
-            
-            var dataDay = 1;
-            for (var j = 0; j < fiveDay.length; j++) {
-                fiveDay[j].textContent = this.convertUnit(this.Forecast.list[dataDay].main.temp).toPrecision(2);
-                dataDay += 8;
-            }
-            var dataDate = 1;
-            for (var i = 0; i < fiveDate.length; i++) {
-                fiveDate[i].textContent = this.dateFormat(this.Forecast.list[dataDate].dt_txt);
-                dataDate += 8;
-            }
-
-            this.FC = true;
-            button.value = 'C';
+            api.changeUnitValues(temp, hi, lo);
+            api.setButton('C');
         }
     },
     displayData: function(data){
@@ -148,10 +134,10 @@ var api = {
         var wndSpd = data.wind.speed;
         var wndDeg = data.wind.deg;
 
-        document.getElementById('temp_display').innerHTML = "<p>" + this.convertUnit(weatherTemp).toPrecision(2) + "</p>";
+        document.getElementById('temp_display').innerHTML = "<p>" + this.initUnit(weatherTemp).toPrecision(2) + "</p>";
         document.getElementById('humidity_display').innerHTML= "<p>" + weatherHumid + "</p>";
-        document.getElementById('temphi_display').textContent = this.convertUnit(tempHigh).toPrecision(2);
-        document.getElementById('templo_display').textContent = this.convertUnit(tempLow).toPrecision(2);
+        document.getElementById('temphi_display').textContent = this.initUnit(tempHigh).toPrecision(2);
+        document.getElementById('templo_display').textContent = this.initUnit(tempLow).toPrecision(2);
         document.getElementById('city_display').innerHTML= "<p>" + weatherCity + "</p>";
         document.getElementById('weather_display').innerHTML = this.weatherCodes(weatherId);
         document.getElementById('wind_spd').textContent = wndSpd;
@@ -159,7 +145,6 @@ var api = {
         this.setData(data);
     },
     display5Day: function (data) {
-        //console.log(data);
         var fiveIcon = document.getElementsByClassName('day_icon');
         var fiveDay = document.getElementsByClassName('day_fill');
         var fiveDate = document.getElementsByClassName('date_fill');
@@ -167,7 +152,7 @@ var api = {
         
         var dataDay = 1;
         for (var j = 0; j < fiveDay.length; j++) {
-            fiveDay[j].textContent = this.convertUnit(data.list[dataDay].main.temp).toPrecision(2); 
+            fiveDay[j].textContent = this.initUnit(data.list[dataDay].main.temp).toPrecision(2); 
             fiveIcon[j].innerHTML = this.weatherCodes(data.list[dataDay].weather[0].id);
             dataDay += 8;
         }
@@ -177,7 +162,7 @@ var api = {
             dataDate += 8;
         }
         this.setForecast(data);
-        this.drawGraph(list);
+        this.drawGraph(list);      
     },
     drawGraph: function () {
             var canvas = document.getElementById('canvas');
@@ -186,17 +171,15 @@ var api = {
             var temps = []; 
             var count;
             var gridCol = 0;
-            var HEIGHT = 105; 
-            var WIDTH = 100;
+            const HEIGHT = 105; 
+            const WIDTH = 100;
             var dataDay = 1;
             
 
             for (var i = 0; i < 5; i++) {
-                temps[i] = this.convertUnit(this.Forecast.list[dataDay].main.temp).toPrecision(2);
+                temps[i] = this.initUnit(this.Forecast.list[dataDay].main.temp).toPrecision(2);
                 dataDay +=8;
-            }
-            console.log(temps);
-            
+            }            
             
             ctx.moveTo(0, HEIGHT - temps[0]);
             ctx.beginPath();
@@ -211,7 +194,6 @@ var api = {
             ctx.lineJoin = 'round';
             ctx.font = "9px serif"
             ctx.stroke();
-            ctx.fill(arc);
             
             function createPoint(ctx,x, y) {
                 ctx.arc(x,y,3,0, Math.PI*2,true);

@@ -36,6 +36,11 @@
 }
 .weather {
     width: 65%;
+    flex: 1 1 auto;
+    
+}
+.weather img {
+    max-width: 100%;
 }
 #city_display {
     font-size: 1.5em;
@@ -43,8 +48,8 @@
 }
 #weather_display {
     text-align: center;
-    padding-top: 1em;
 }
+
 .temp {
     width: 45%;
     display: flex;

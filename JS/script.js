@@ -5,16 +5,9 @@ window.onload = function getLoc() {
         var userLat = position.coords.latitude;
         var userLong = position.coords.longitude;
         var btn = document.getElementById('unit_switch');
-        
-        var coords = 'userLat=' +userLat + '&userLong='+userLong;
-        var sendCoords = new XMLHttpRequest();
-        sendCoords.open('POST', 'req.php', true);
-        sendCoords.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        //sendCoords.send(coords);
-
-        api.connection('GET', 'req.php', 1);
-        //api.connection('GET', 'response071017.json', 1);
-        //api.connection('GET', 'fiveday_response071017.json', 2);
+    
+        api.connection('GET', 'response071017.json', 1);
+        api.connection('GET', 'fiveday_response071017.json', 2);
         //api.connection('GET', 'http://api.openweathermap.org/data/2.5/weather?lat=' + userLat +'&lon=' + userLong +'&appid=549ea4e9fb7d89a512a515156a787ab8', 1);
         //api.connection('GET', 'http://api.openweathermap.org/data/2.5/forecast?lat=' + userLat +'&lon=' + userLong +'&appid=549ea4e9fb7d89a512a515156a787ab8', 2);
         document.addEventListener('click', api.toggleUnit,true);
@@ -38,9 +31,8 @@ var api = {
             request.onload = function() {
                 if(request.status >= 200 && request.status <400) {
                     //Success
-                     var data = request.responseText;
-                    //var data = JSON.parse(request.responseText);
-                     console.log("This is what is being returned:" + data);
+                     var data = JSON.parse(request.responseText);
+                     
                      if (dataSet == 1) {
                         api.displayData(data);
                      }

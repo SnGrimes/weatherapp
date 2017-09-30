@@ -4,13 +4,12 @@ window.onload = function getLoc() {
     navigator.geolocation.getCurrentPosition(function(position){
         var userLat = position.coords.latitude;
         var userLong = position.coords.longitude;
+        var url = "api.php";
         var btn = document.getElementById('unit_switch');
     
-        api.connection('GET', 'response071017.json', 1);
-        api.connection('GET', 'fiveday_response071017.json', 2);
-        //api.connection('GET', 'http://api.openweathermap.org/data/2.5/weather?lat=' + userLat +'&lon=' + userLong +'&appid=549ea4e9fb7d89a512a515156a787ab8', 1);
-        //api.connection('GET', 'http://api.openweathermap.org/data/2.5/forecast?lat=' + userLat +'&lon=' + userLong +'&appid=549ea4e9fb7d89a512a515156a787ab8', 2);
-        document.addEventListener('click', api.toggleUnit,true);
+        api.connection('POST', url, userLat, userLong, 1);
+        api.connection('POST', url, userLat, userLong, 2);
+        btn.addEventListener('click', api.toggleUnit,true);
     }); 
     
 } /** End of Onload sequence **/
@@ -24,12 +23,13 @@ var api = {
         var button = document.getElementById('unit_switch');
         button.value = letter;
     },
-    connection: function (type, url, dataSet) {
+    connection: function (type, url, lat, long, dataSet) {
             var request = new XMLHttpRequest();
+            var params = "lat=" + lat +"&long=" + long +"&dataset=" + dataSet;
             request.open(type, url, true);
-
-            request.onload = function() {
-                if(request.status >= 200 && request.status <400) {
+            request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            request.onreadystatechange = function() {
+                if(request.readyState == 4 && request.status == 200) {
                     //Success
                      var data = JSON.parse(request.responseText);
                      
@@ -39,14 +39,12 @@ var api = {
                      else {
                          api.display5Day(data);
                      }
-                } else {
-                    console.log('There was an error when trying to request OpenWeather api data.')
                 }
             };
             request.onerror = function() {
                 console.log('There was a connection error.')
             }
-            request.send();        
+            request.send(params);        
     },
     setData: function(data) {
         this.Data = Object.assign({}, data);

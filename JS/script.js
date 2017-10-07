@@ -1,17 +1,15 @@
 'use strict'
 
-window.onload = function getLoc() {
-    navigator.geolocation.getCurrentPosition(function(position){
-        var userLat = position.coords.latitude;
-        var userLong = position.coords.longitude;
+window.onload = function () {
+        document.getElementById('zipSubmit').addEventListener('click', function() {
+        var zip = Number(document.getElementById("ZipCode").value);
         var url = "api.php";
         var btn = document.getElementById('unit_switch');
-    
-        api.connection('POST', url, userLat, userLong, 1);
-        api.connection('POST', url, userLat, userLong, 2);
-        btn.addEventListener('click', api.toggleUnit,true);
-    }); 
-    
+        api.connection('POST', url, zip, 1);
+        api.connection('POST', url, zip, 2);
+        btn.addEventListener('click', api.toggleUnit, true);  
+    }, true); 
+     
 } /** End of Onload sequence **/
 
 
@@ -23,9 +21,9 @@ var api = {
         var button = document.getElementById('unit_switch');
         button.value = letter;
     },
-    connection: function (type, url, lat, long, dataSet) {
+    connection: function (type, url, zipCode, dataSet) {
             var request = new XMLHttpRequest();
-            var params = "lat=" + lat +"&long=" + long +"&dataset=" + dataSet;
+            var params = "zip=" + zipCode +"&dataset=" + dataSet;
             request.open(type, url, true);
             request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             request.onreadystatechange = function() {

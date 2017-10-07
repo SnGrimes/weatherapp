@@ -8,9 +8,17 @@
     <meta charset="UTF-8" />
     </head>
     <body>
+        <div class="zipInput">
+            <form id="zipForm" onsubmit="return false">
+                <h4>Please Enter your 5 digit Zipcode.</h4><br>
+                <input type="text" name="zipbox" id="ZipCode" minlength="5" maxlength="5" placeholder="Enter ZipCode" pattern="[0-9]{5}"required />  
+                <input type="submit" id="zipSubmit">
+            </form>
+        </div>
         <div class="container">
             <section id="weather_main" class="weather_temp sixty center">
                 <div class="weather">
+                       
                     <p id="city_display"></p>
                     <p id="weather_display"></p>
                 </div>

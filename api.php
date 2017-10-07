@@ -3,15 +3,14 @@ if (! function_exists ('curl_version')) {
     exit ("Enable cURL in PHP");
 }
 
-$userLat = $_POST["lat"];
-$userLong = $_POST["long"];
+$zipcode = $_POST["zip"];
 $dataSet = $_POST["dataset"];
 
 if($dataSet == 1) {
-    $url = 'https://api.openweathermap.org/data/2.5/weather?lat=' . $userLat .'&lon=' . $userLong . 'API ID';
+    $url = 'https://api.openweathermap.org/data/2.5/weather?zip=' . $zipcode . 'APT ID';
 }
 else{
-    $url = 'https://api.openweathermap.org/data/2.5/forecast?lat=' . $userLat .'&lon=' . $userLong . 'API ID';
+    $url = 'https://api.openweathermap.org/data/2.5/forecast?zip=' . $zipcode . 'API ID';
 }
 
 $ch = curl_init();

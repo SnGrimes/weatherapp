@@ -4,6 +4,10 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+body {
+    background-color: burlywood;
+}
+
 .zipInput {
     position: absolute;
     top: 50px;

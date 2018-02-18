@@ -1,0 +1,29 @@
+{
+  "name": "weatherapp",
+  "version": "1.0.0",
+  "description": "A weather app using HTML, CSS, Javascript and PHP.",
+  "main": "script.js",
+  "scripts": {
+    "test": "\"echo \\\"Error: no tests specified yet\\\" && exit 1\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SnGrimes/weatherapp.git"
+  },
+  "keywords": [
+    "PHP",
+    "Javascript",
+    "HTML",
+    "CSS"
+  ],
+  "author": "Shantia Grimes-Farmer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SnGrimes/weatherapp.git/issues"
+  },
+  "homepage": "https://github.com/SnGrimes/weatherapp.git#readme",
+  "devDependencies": {
+    "browser-sync": "^2.23.6",
+    "gulp": "^3.9.1"
+  }
+}

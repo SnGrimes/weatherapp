@@ -2,82 +2,71 @@
 <html>
     <head>
     <title>Weather App</title>
-    <link rel="stylesheet" href="CSS/style.css" type="text/css" />
+    <link rel="stylesheet" href="CSS/style.css" />
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <meta name ="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="UTF-8" />
     </head>
     <body>
-        <div class="zipInput">
-            <form id="zipForm" onsubmit="return false">
-                <h4>Please Enter your 5 digit Zipcode.</h4><br>
-                <input type="text" name="zipbox" id="ZipCode" minlength="5" maxlength="5" placeholder="Enter ZipCode" pattern="[0-9]{5}"required />  
-                <input type="submit" id="zipSubmit">
-            </form>
-        </div>
         <div class="container">
-            <section id="weather_main" class="weather_temp sixty center">
-                <div class="weather">
-                       
-                    <p id="city_display"></p>
-                    <p id="weather_display"></p>
+            <div class="zipInput">
+                <form id="zipForm" onsubmit="return false">
+                    <input type="text" name="zipbox" id="ZipCode" minlength="5" maxlength="5" placeholder="Please enter your 5 digit ZipCode" size="30" pattern="[0-9]{5}"required />  
+                    <input type="submit" id="zipSubmit">
+                </form>
+            </div>
+            <section id="weather_main" class="weather">
+                <p id="city_display" class="weather_city">Richardson</p><!-- remove placeholder -->
+                <p id="weather_display" class="weather_img"><img src="img/Sunny.svg" alt=" Sunny Icon" height="150"></p> <!-- remove placeholder -->
+                <p id="temp_display" class="weather_temp">64<span>&deg;</span></p><input type="button" class="weather_unit-btn" id="unit_switch" value="F"> <!-- remove placeholder -->
+                <p id="desc_display" class="weather_desc">Sunny</p> <!--remove placeholder-->
+                <div class="weather_addl-info">
+                    <div class="weather_humidity"><p>Humidity</p><p id="humidity_display" class="center">48<span>%</span></p></div> <!--remove placeholder -->
+                    <div class="weather_wind"><p>Wind</p><p id="wind_spd">5.1 m/h</p><pid="wind_dir">190NW</p></div><!-- remove placeholder -->
+                    <div class="weather_pressure"><p>Pressure</p><p>1027 hpa</p></div> <!-- remove placeholder -->
+                    <div class="weather_percip"><p>Percipitation</p><p class="center">0</p></div> <!--remove placeholder -->
                 </div>
-                <div class="temp">
-                    <div class="temperature">
-                        <p id="temp_display"></p><p>&deg;</p><input type="button" class="unit_btn" id="unit_switch" value="F"> 
-                    </div>
-                    <div class="humidity">
-                        <p>Today's Humidity: </p><p id="humidity_display"></p>
-                    </div>
-                    <div class="temp_range">
-                        <p>Today's High is: </p><p id="temphi_display"></p>
-                        <p>Today's Low is: </p><p id="templo_display"></p>
-                    </div>
-                </div>
-            </section>
-            <section class="graph_wndspd sixty center">
-                <div class="graph half_row">
-                    <canvas id="canvas" width ="600" height ="110">
-                    </canvas>
-                </div>
-                <div class="wind half_row">
-                    <p class="wind_block">
-                        Wind Speed: <br><span id="wind_spd" class="wind_data"></span>
-                    </p>
-                    <p class="wind_block">
-                        Wind Direction: <br><span id="wind_dir" class="wind_data"></span>
-                    </p>
+                <div class="weather_temp-range">
+                    <p>Today's High is: <span id="temphi_display">68</span> <!-- remove placeholder -->
+                    <p>Today's Low is: <span id="templo_display">63</span></p> <!-- remove placeholder -->
                 </div>
             </section>
-            <section class="five_day sixty center">
+            
+            <section class="graph half_row">
+                <canvas id="canvas" width ="600" height ="110">
+                </canvas>
+            </section>
+            
+            <section class="five_day">
                 <div  class="day day_lines"> 
-                    <div class="day_icon"></div>
-                    <p class="day_fill"></p>
-                    <div class="date"><p class="date_fill"></p></div>
+                    <div class="day_icon"><img src="img/Sunny.svg" alt=" Sunny Icon" height="50"></div><!-- remove placeholder -->
+                    <p class="day_fill">79</p><!-- remove placeholder -->
+                    <div class="date"><p class="date_fill">April 11</p></div><!-- remove placeholder -->
                 </div>
                 <div class="day day_lines"> 
-                    <div class="day_icon"></div>
-                    <p class="day_fill"></p>
-                    <div class="date"><p class="date_fill"></p></div>
+                    <div class="day_icon"><img src="img/Sunny.svg" alt=" Sunny Icon" height="50"></div><!-- remove placeholder -->
+                    <p class="day_fill">84</p><!-- remove placeholder -->
+                    <div class="date"><p class="date_fill">April 12</p></div><!-- remove placeholder -->
                 </div>
                 <div class="day day_lines"> 
-                    <div class="day_icon"></div>
-                    <p class="day_fill"></p>
-                    <div class="date"><p class="date_fill"></p></div>
+                    <div class="day_icon"><img src="img/Rain.svg" alt=" Rain Icon" height="50"></div><!-- remove placeholder -->
+                    <p class="day_fill">74</p><!-- remove placeholder -->
+                    <div class="date"><p class="date_fill">April 13</p></div><!-- remove placeholder -->
                 </div>
                 <div class="day day_lines"> 
-                    <div class="day_icon"></div>
-                    <p class="day_fill"></p>
-                    <div class="date"><p class="date_fill"></p></div>
+                    <div class="day_icon"><img src="img/Sunny.svg" alt=" Sunny Icon" height="50"></div><!-- remove placeholder -->
+                    <p class="day_fill">57</p><!-- remove placeholder -->
+                    <div class="date"><p class="date_fill">April 14</p></div><!-- remove placeholder -->
                 </div>
                 <div class="day"> 
-                    <div class="day_icon"></div>
-                    <p class="day_fill"></p>
-                    <div class="date"><p class="date_fill"></p></div>
-                </div>
+                    <div class="day_icon"><img src="img/Sunny.svg" alt=" Sunny Icon" height="50"></div><!-- remove placeholder -->
+                    <p class="day_fill">63</p><!-- remove placeholder -->
+                    <div class="date"><p class="date_fill">April 15</p></div><!-- remove placeholder -->
+                </div> 
             </section>
-            <footer><p>Created by <a href="http://www.shantiagrimes.com">Shantia Grimes</a></footer>
+            <footer><p>View the code at <a href="https://github.com/SnGrimes/weatherapp">Github</a></p></footer>
         </div>
-        <script type="text/javascript" src="JS/script.js"></script>
+        <script type="text/javascript" src="JS/script.js"></script>        
     </body>
 </html>

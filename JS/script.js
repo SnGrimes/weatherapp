@@ -3,7 +3,7 @@
 window.onload = function () {
         document.getElementById('zipSubmit').addEventListener('click', function() {
         var zip = Number(document.getElementById("ZipCode").value);
-        var url = "api.php";
+        var url = "api.php"; //change before reuploading to live site
         var btn = document.getElementById('unit_switch');
         api.connection('POST', url, zip, 1);
         api.connection('POST', url, zip, 2);
@@ -171,12 +171,11 @@ var api = {
             const WIDTH = 100;
             var dataDay = 1;
             
-
             for (var i = 0; i < 5; i++) {
                 temps[i] = this.initUnit(this.Forecast.list[dataDay].main.temp).toPrecision(2);
                 dataDay +=8;
             }            
-            
+        
             ctx.moveTo(0, HEIGHT - temps[0]);
             ctx.beginPath();
             for (count = 0; count < temps.length; count++) {

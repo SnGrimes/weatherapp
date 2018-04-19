@@ -8,7 +8,13 @@ body {
    grid-column: container-column-6 / span 2;
    justify-self: end;
    display: inline-block;  
+}
 
+.zipField {
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    border-bottom: 1px solid #fff;
 }
 
 .center {
@@ -30,8 +36,9 @@ body {
     grid-template-rows: [weather-row-1] auto [weather-row-2] 20px [weather-row-3]100px [weather-row-4] 100px  [weather-row-5] auto  [weather-row-6] 30vh; 
 }
 .weather_img {
-    grid-column: weather-column-1 / weather-column-2;
+    grid-column: weather-column-1 / weather-column-3;
     grid-row: weather-row-3 / weather-row-4;
+    justify-self: center;
 }
 .weather_city {
     grid-column: weather-column-1;
@@ -63,8 +70,9 @@ body {
 .weather_addl-info {
     grid-column: weather-column-1 / span 5;
     grid-row: weather-row-6 / span 2;
+    align-self: center;
     display: grid;
-    grid-template-columns: [info-column-1] 100px [info-column-2] 100px [info-column-3] 100px [info-column-4] 100px;
+    grid-template-columns: [info-column-1] 25% [info-column-2] 25% [info-column-3] 25%;
     grid-template-rows: [info-row-1] 50px;
     grid-column-gap: 10px;
     line-height: 4px;
@@ -81,10 +89,6 @@ body {
     grid-column: info-column-3;
     grid-row: info-row-1;
 }
-.weather_percip {
-    grid-column: info-column-4;
-    grid-row: info-row-1;
-}
 
 .weather_temp-range {
     grid-column: weather-column-6;
@@ -93,29 +97,31 @@ body {
 }
 
 .graph {
-
+    grid-column: container-column-7 /span 1;
+    grid-row: container-row-6;
 }
+
 .five_day {
     grid-column: container-column-7 / span 2;
     grid-row: container-row-2 / span 2;
     display: grid;
     grid-template-columns: 8vw 8vw 8vw 8vw 8vw;
     grid-template-rows: 25vh;
-    /* grid-auto-flow: column; */
     grid-column-gap: 10px;
 }
 .day {
+    padding-top: 20px;
+}
+.day, .graph {
     background-color: #67C2F5;
 }
 .day_fill {
 
 }
-.day, .day_fill, .wind_block {
+.day, .day_fill {
     text-align: center;
 }
-.day_lines {
 
-}
 .date {
 
 }

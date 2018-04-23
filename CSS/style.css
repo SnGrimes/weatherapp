@@ -5,7 +5,7 @@ body {
 }
 
 .zipInput {
-   grid-column: container-column-6 / span 2;
+   grid-column: container-column-7 / span 2;
    justify-self: end;
    display: inline-block;  
 }
@@ -24,8 +24,8 @@ body {
 .container {
     width: 100%;
     display: grid;
-    grid-template-columns: [container-column-1] 30px [container-column-2] 150px [container-column-3] 150px [container-column-4] 150px [container-column-5] 20vw [container-column-6] 50px [container-column-7] 85vh [container-column-8] 30px;
-    grid-template-rows: [container-row-1] 50px [container-row-2] 50px [container-row-3] 100px [container-row-4] 200px [container-row-5] 100px [container-row-6] 30vh [container-row-7] 100px;
+    grid-template-columns: [container-column-1] 30px [container-column-2] 150px [container-column-3] 150px [container-column-4] 150px [container-column-5] 20vw [container-column-6] 50px [container-column-7] 55vh [container-column-8] 35vh [container-column-9] 30px;
+    grid-template-rows: [container-row-1] 50px [container-row-2] 50px [container-row-3] 100px [container-row-4] 200px [container-row-5] 100px [container-row-6] 15vh [container-row-7] 100px [container-row-8] 15vh;
     background: #77C9F7;
 }
 .weather {
@@ -99,10 +99,21 @@ body {
 .graph {
     grid-column: container-column-7 /span 1;
     grid-row: container-row-6;
+    padding: 0px;
+    margin: 0px;
+    height: 30vh;
+    width: 100%;
+    min-width: 300px;
+    max-width: 1000px;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
 }
 
 .five_day {
-    grid-column: container-column-7 / span 2;
+    grid-column: container-column-7 /span 1;
     grid-row: container-row-2 / span 2;
     display: grid;
     grid-template-columns: 8vw 8vw 8vw 8vw 8vw;

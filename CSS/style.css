@@ -17,6 +17,12 @@ body {
     border-bottom: 1px solid #fff;
 }
 
+.zipButton {
+    background: none;
+    cursor: pointer;
+    border: none;
+}
+
 .center {
     text-align: center;
 }
@@ -24,7 +30,7 @@ body {
 .container {
     width: 100%;
     display: grid;
-    grid-template-columns: [container-column-1] 30px [container-column-2] 150px [container-column-3] 150px [container-column-4] 150px [container-column-5] 20vw [container-column-6] 50px [container-column-7] 55vh [container-column-8] 35vh [container-column-9] 30px;
+    grid-template-columns: [container-column-1] 30px [container-column-2] 150px [container-column-3] 150px [container-column-4] 150px [container-column-5] 20vw [container-column-6] 50px [container-column-7] 20vw [container-column-8] 20vw [container-column-9] 30px;
     grid-template-rows: [container-row-1] 50px [container-row-2] 50px [container-row-3] 100px [container-row-4] 200px [container-row-5] 100px [container-row-6] 15vh [container-row-7] 100px [container-row-8] 15vh;
     background: #77C9F7;
 }
@@ -61,6 +67,7 @@ body {
     grid-column: weather-column-5;
     grid-row: weather-row-3;
     align-self: end;
+    cursor: pointer;
 }
 .weather_desc {
     grid-column: weather-column-1;
@@ -72,8 +79,8 @@ body {
     grid-row: weather-row-6 / span 2;
     align-self: center;
     display: grid;
-    grid-template-columns: [info-column-1] 25% [info-column-2] 25% [info-column-3] 25%;
-    grid-template-rows: [info-row-1] 50px;
+    grid-template-columns: [info-column-1] 25% [info-column-2] 25% [info-column-3] 30%;
+    grid-template-rows: [info-row-1] 100px;
     grid-column-gap: 10px;
     line-height: 4px;
 }
@@ -97,11 +104,11 @@ body {
 }
 
 .graph {
-    grid-column: container-column-7 /span 1;
-    grid-row: container-row-6;
+    grid-column: container-column-7 /span 2;
+    grid-row: container-row-6 / span 1;
     padding: 0px;
     margin: 0px;
-    height: 30vh;
+    height: 20vh;
     width: 100%;
     min-width: 300px;
     max-width: 1000px;
@@ -116,7 +123,7 @@ canvas {
     grid-column: container-column-7 /span 1;
     grid-row: container-row-2 / span 2;
     display: grid;
-    grid-template-columns: 8vw 8vw 8vw 8vw 8vw;
+    grid-template-columns: repeat(5, 7.5vw);
     grid-template-rows: 25vh;
     grid-column-gap: 10px;
 }
@@ -126,18 +133,181 @@ canvas {
 .day, .graph {
     background-color: #67C2F5;
 }
-.day_fill {
 
-}
 .day, .day_fill {
     text-align: center;
 }
 
-.date {
-
-}
-
 footer {
     grid-column: container-column-2 /span 3;
-    grid-row: container-row-7;
+    grid-row: container-row-8;
+}
+
+/* Media Queries */
+
+@media screen and (min-width: 800px) and (max-width: 1280px){
+    .container {
+        grid-template-columns: [container-column-1] 30px [container-column-2] 150px [container-column-3] 150px [container-column-4] 150px [container-column-5] 15vw [container-column-6] 50px [container-column-7] 20vw [container-column-8] 20vw [container-column-9] 30px;
+        grid-template-rows: [container-row-1] 50px [container-row-2] 50px [container-row-3] 100px [container-row-4] 100px [container-row-5] 100px [container-row-6] 15vh [container-row-7] 100px [container-row-8] 10vh;
+    }
+    .five_day {
+        grid-column: container-column-7 / span 2;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .container {
+        grid-template-columns: [container-column-1] 15px [container-column-2] 35px [container-column-3] 80px [container-column-4] 80px [container-column-5] 23vw [container-column-6] 50px [container-column-7] 24vw [container-column-8] 20vw [container-column-9] 15px;
+        grid-template-rows: [container-row-1] 50px [container-row-2] 50px [container-row-3] 100px [container-row-4] 150px [container-row-5] 100px [container-row-6] 15vh [container-row-7] 60px [container-row-8] 13vh [container-row-9] 100px;
+    }
+    .weather {
+        grid-template-columns: [weather-column-1] 50px [weather-column-2] 16vw [weather-column-3] 140px [weather-column-4] 30px [weather-column-5] 60px [weather-column-6] 3vw;
+    }
+    .weather_temp-range {
+        grid-column: weather-column-3 / span 3;
+        grid-row: weather-row-5;
+    }
+    .weather_temp {
+        font-size: 4em;
+    }
+    .weather_addl-info {
+        grid-template-columns: [info-column-1] 25% [info-column-2] 25% [info-column-3] 35%;
+    }
+    .five_day {
+        grid-template-columns: 39vw;
+        grid-template-rows: repeat(5, 11vh);
+        grid-row-gap: 10px;
+    }
+    .day {
+        display: grid;
+        grid-template-columns: repeat(3, 85px);
+        padding-left: 30px;
+    }
+    .date {
+        grid-column-start: 1;
+        grid-row-start: 1;
+    }
+    .day_fill {
+        grid-column-start: 3;
+    }
+    .day_icon {
+        grid-column: 2;
+    }
+    .graph {
+        grid-row: container-row-8 /span 1;
+        width: 80%;
+    }
+    footer {
+        grid-column: container-column-2 / span 4;
+        grid-row: container-row-9;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .container {
+        grid-template-columns: [container-column-1] 10px [container-column-2] 30vw [container-column-3] 30vw [container-column-4] 30vw [container-column-5] 10px;
+        grid-template-rows: [container-row-1] 50px [container-row-2] 50px [container-row-3] 100px [container-row-4] 150px [container-row-5] 100px [container-row-6] 15vh [container-row-7] 50px [container-row-8]30vh [container-row-9] 100vh [container-row-10]  10vh [container-row-11] 10vh;
+    }
+    .weather {
+        grid-column: container-column-2 /span 4;
+        grid-row: container-row-2 / span 4;
+        grid-template-columns: [weather-column-1] 30vw [weather-column-2] 18vw [weather-column-3] 100px [weather-column-4] 60px;
+        grid-template-rows: [weather-row-1] 20px [weather-row-2] 50px [weather-row-3]20vh [weather-row-4] 100px [weather-row-5] auto [weather-row-6] 20vh [weather-row-7] 20vh [weather-row-8] 20vh; 
+    }
+    .weather_img {
+        grid-row: weather-row-4 / weather-row-5;
+        grid-column: weather-column-2 / span 2;
+    }
+    .weather_city {
+        grid-row: weather-row-2;
+    }
+    .weather_desc {
+        grid-column: weather-column-2 / span 2;
+        grid-row: weather-row-6;
+        align-self: end;
+        text-align: center;
+    }
+    .weather_unit-btn { 
+        grid-column: weather-column-3;
+        align-self: center;
+        justify-self: end;
+    }
+    .weather_temp-range {
+        display: inline-flex;
+        grid-column: weather-column-1 / span 5;
+        grid-row: weather-row-7;
+        justify-self: center;
+    }
+
+    .weather_temp-margin {
+        margin-right: 55px;
+    }
+    .weather_temp {
+        font-size: 3em;
+        grid-row: weather-row-3 / weather-row-4;
+        grid-column: weather-column-2 / span 1;
+    }
+
+    .weather_humidity, .weather_pressure, .weather_wind {
+        text-align: center;
+    }
+    .weather_addl-info {
+        grid-template-columns: [info-column-1] 27% [info-column-2] 40% [info-column-3] 38%;
+        align-self: start;
+        grid-row: weather-row-8 / span 3;
+    }
+    .zipInput {
+        grid-column: container-column-2 / span 3;
+        grid-row: container-row-1;
+     }
+    .five_day {
+        grid-column: container-column-2;
+        grid-row: container-row-9 / span 3;
+        grid-template-columns: 100vw;
+        grid-template-rows: repeat(5, 15vh);
+        grid-row-gap: 10px;
+    }
+    .day {
+        display: grid;
+        grid-template-columns: repeat(3, 145px);
+    }
+    .date {
+        grid-column-start: 1;
+        grid-row-start: 1;
+    }
+    .day_fill {
+        grid-column-start: 3;
+    }
+    .day_icon {
+        grid-column: 2;
+    }
+    .graph {
+        grid-column: container-column-2 /span 2;
+        grid-row: container-row-10 / span 1;
+        align-self: center;
+        min-width: 100vw;
+    }
+    footer {
+        grid-column: container-column-2 /span 3;
+        grid-row: container-row-12;
+    }
+}
+
+@media screen and (min-width: 300px) and (max-width: 400px) {
+    .container {
+        grid-template-columns: [container-column-1] 10px [container-column-2] 40vw [container-column-3] 40vw [container-column-4] 40vw [container-column-5] 10px;
+    }
+    .weather_temp {
+        font-size: 4em;
+    }
+    .weather_unit-btn {
+        grid-column: weather-column-4;
+        justify-self: end;
+    }
+    .weather_addl-info {
+        grid-template-columns: [info-column-1] 27% [info-column-2] 35% [info-column-3] 38%;
+    }
+    .five_day {
+        grid-template-columns: 123vw;
+    }
 }

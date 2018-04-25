@@ -13,7 +13,7 @@
             <div class="zipInput">
                 <form id="zipForm" onsubmit="return false">
                     <input type="text" name="zipbox" id="ZipCode" class="zipField" minlength="5" maxlength="5" placeholder="Please enter your 5 digit ZipCode" size="30" pattern="[0-9]{5}"required />  
-                    <button type="submit" id="zipSubmit"><img src="img/Magnifying_glass.svg" alt="Magnifying lens" /></button>
+                    <button type="submit" id="zipSubmit" class="zipButton"><img src="img/Magnifying_glass.svg" alt="Magnifying lens" /></button>
                 </form>
             </div>
             <section id="weather_main" class="weather">
@@ -27,7 +27,7 @@
                     <div class="weather_pressure"><p>Pressure</p><p id="pressure_display"></p></div>
                 </div>
                 <div class="weather_temp-range">
-                    <p>Today's High is: <span id="temphi_display"></span> 
+                    <p class="weather_temp-margin">Today's High is: <span id="temphi_display"></span> 
                     <p>Today's Low is: <span id="templo_display"></span></p> 
                 </div>
             </section>

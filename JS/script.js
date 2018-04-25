@@ -9,7 +9,7 @@
 window.onload = function () {
         document.getElementById('zipSubmit').addEventListener('click', function() {
         const zip = Number(document.getElementById("ZipCode").value);
-        const url = "test.php"; //change before reuploading to live site
+        const url = "api.php";
         const btn = document.getElementById('unit_switch');
         api.connection('POST', url, zip, 1);
         api.connection('POST', url, zip, 2);
